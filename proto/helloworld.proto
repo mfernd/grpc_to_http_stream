@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package helloworld;
+
+service Greeter {
+    rpc SayHello(HelloRequest) returns (stream HelloReply);
+}
+
+message HelloRequest {}
+
+message HelloReply {
+    int64 timestamp = 1;
+}
