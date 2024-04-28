@@ -1,6 +1,6 @@
+use common::hello_world::greeter_server::GreeterServer;
+use grpc_server::MyGreeter;
 use std::net::SocketAddr;
-
-use grpc_server::{hello_world::greeter_server::GreeterServer, MyGreeter};
 use tonic::transport::Server;
 use tracing::info;
 

@@ -7,9 +7,6 @@ pub use error::*;
 
 mod config;
 mod error;
-pub mod hello_world {
-    tonic::include_proto!("helloworld");
-}
 mod handlers;
 
 pub fn create_app(config: config::Config) -> Router {

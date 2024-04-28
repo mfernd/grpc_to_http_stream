@@ -1,11 +1,9 @@
-use crate::{
-    config,
-    hello_world::{greeter_client::GreeterClient, HelloReply, HelloRequest},
-};
+use crate::config;
 use axum::{
     extract::State,
     response::sse::{Event, KeepAlive, Sse},
 };
+use common::hello_world::{greeter_client::GreeterClient, HelloReply, HelloRequest};
 use futures::Stream;
 use serde::Serialize;
 use std::convert::Infallible;

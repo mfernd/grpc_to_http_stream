@@ -5,12 +5,9 @@ edition = "2021"
 
 [dependencies]
 chrono = "0.4"
-prost = { workspace = true }
+common = { path = "../common" }
 tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
 tokio-stream = { workspace = true }
 tonic = { workspace = true }
 tracing = { workspace = true }
 tracing-subscriber = { workspace = true }
-
-[build-dependencies]
-tonic-build = { workspace = true }

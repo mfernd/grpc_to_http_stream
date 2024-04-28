@@ -1,15 +1,13 @@
-use hello_world::{greeter_server::Greeter, HelloReply, HelloRequest};
+use common::hello_world::{greeter_server::Greeter, HelloReply, HelloRequest};
 use std::time::Duration;
 use tokio::sync::mpsc;
 use tokio_stream::wrappers::ReceiverStream;
 use tonic::{Request, Response, Status};
 use tracing::info;
 
-mod error;
 pub use error::*;
-pub mod hello_world {
-    tonic::include_proto!("helloworld");
-}
+
+mod error;
 
 #[derive(Debug, Default)]
 pub struct MyGreeter;

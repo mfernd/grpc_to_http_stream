@@ -1,5 +1,5 @@
 [workspace]
-members = ["src/axum_server", "src/grpc_server"]
+members = ["src/common", "src/axum_server", "src/grpc_server"]
 resolver = "2"
 
 [workspace.dependencies]
