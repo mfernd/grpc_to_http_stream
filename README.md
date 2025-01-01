@@ -2,13 +2,15 @@
 
 Examples to convert gRPC tonic stream to HTTP stream (SSE).
 
+Snippets from frameworks like:
+
+- [x] Axum: [`axum_server/src/handlers/sse.rs`](./src/axum_server/src/handlers/sse.rs)
+- [ ] Actix?
+- [ ] Rocket?
+- [ ] Warp?
+- [ ] Poem?
+
 ## How to run
-
-To no build when running, you can build the project first:
-
-```bash
-cargo build
-```
 
 ### gRPC tonic server
 
@@ -16,7 +18,8 @@ cargo build
 cargo run --bin grpc_server
 ```
 
-Will start the gRPC server on `localhost:50051` by default.  
+Will start the gRPC server on `localhost:50051` by default.
+
 This can be changed with env variables `APP_HOST` and `APP_PORT`.
 
 ### Axum HTTP server
@@ -25,8 +28,9 @@ This can be changed with env variables `APP_HOST` and `APP_PORT`.
 GRPC_URI="localhost:50051" cargo run --bin axum_server
 ```
 
-Will start the gRPC server on `http://localhost:3000/` by default.  
-This can be changed with env variables `APP_HOST` and `APP_PORT`.  
+Will start the gRPC server on `http://localhost:3000/` by default.
+
+This can be changed with env variables `APP_HOST` and `APP_PORT`.
 And you can change the gRPC server URI with the env variable `GRPC_URI`.
 
 You can then test with curl:
