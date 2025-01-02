@@ -1,4 +1,4 @@
-use crate::config;
+use crate::{config, ApiError};
 use axum::{
     extract::State,
     response::sse::{Event, KeepAlive, Sse},
@@ -13,17 +13,20 @@ use tracing::{error, info};
 #[tracing::instrument]
 pub async fn handler(
     State(config): State<config::Config>,
-) -> Sse<impl Stream<Item = Result<Event, Infallible>>> {
-    info!("beginning stream");
-
+) -> Result<Sse<impl Stream<Item = Result<Event, Infallible>>>, ApiError> {
     let mut client = GreeterClient::connect(format!("http://{}", config.grpc_addr))
         .await
-        .unwrap();
+        .map_err(ApiError::GrpcConnect)?;
 
     let request = tonic::Request::new(HelloRequest {});
-    let mut response = client.say_hello(request).await.unwrap().into_inner();
+    let mut response = client
+        .say_hello(request)
+        .await
+        .map_err(ApiError::GrpcRequest)?
+        .into_inner();
 
     let stream = async_stream::stream! {
+        info!("beginning stream");
         while let Some(Ok(exec_response)) = response.next().await {
             match Event::default().json_data::<ResponseJson>(exec_response.into()) {
                 Ok(json) => yield Ok(json),
@@ -32,7 +35,7 @@ pub async fn handler(
         }
     };
 
-    Sse::new(stream).keep_alive(KeepAlive::default())
+    Ok(Sse::new(stream).keep_alive(KeepAlive::default()))
 }
 
 #[derive(Debug, Serialize)]

@@ -7,7 +7,9 @@ pub use error::*;
 
 mod config;
 mod error;
-mod handlers;
+mod handlers {
+    pub mod sse;
+}
 
 pub fn create_app(config: config::Config) -> Router {
     Router::new()
