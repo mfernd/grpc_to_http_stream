@@ -27,6 +27,7 @@ pub async fn handler(
 
     let stream = async_stream::stream! {
         info!("beginning stream");
+        let _guard = StreamGuard {};
         while let Some(Ok(exec_response)) = response.next().await {
             match Event::default().json_data::<ResponseJson>(exec_response.into()) {
                 Ok(json) => yield Ok(json),
@@ -48,5 +49,14 @@ impl From<HelloReply> for ResponseJson {
         Self {
             timestamp: value.timestamp,
         }
+    }
+}
+
+/// Will log "stream closed" when it is dropped
+pub struct StreamGuard;
+
+impl Drop for StreamGuard {
+    fn drop(&mut self) {
+        info!("stream closed");
     }
 }

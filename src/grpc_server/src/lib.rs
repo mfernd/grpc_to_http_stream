@@ -26,6 +26,10 @@ impl Greeter for MyGreeter {
 
         tokio::spawn(async move {
             loop {
+                if tx.is_closed() {
+                    info!("stream closed");
+                    break;
+                }
                 let reply = create_hello_reply();
                 let _ = tx.send(Ok(reply)).await;
                 tokio::time::sleep(Duration::from_secs(1)).await;
